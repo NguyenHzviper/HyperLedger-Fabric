@@ -1,0 +1,71 @@
+
+--Khởi tạo asset mẫu:
+curl http://localhost:1234/api/init; echo
+
+--Xem asset dựa trên ID:
+curl http://localhost:1234/api/read/asset1; echo
+
+--Xem tất cả  asset:
+curl http://localhost:1234/api/all; echo
+
+--Xóa asset
+\
+curl -X POST -H "Content-Type: application/json" \
+--data '{ "id": "asset1" }' \
+http://localhost:1234/api/delete; echo
+
+--Thêm asset
+\
+curl -X POST -H "Content-Type: application/json" \
+--data '{
+                "name": "Đàn Guitar Acoustic Rosen G11",
+                "price": "2000000",
+                "color": "Đen",
+                "material": "Sơ Mờ, gỗ Nato"
+         }' \
+http://localhost:1234/api/create; echo
+
+--Sửa asset
+\
+curl -X POST -H "Content-Type: application/json" \
+--data '{
+                "id": "asset7",
+                "name": "Đàn Guitar Acoustic Rosen G11",
+                "price": "3200000",
+                "color": "Đỏ",
+                "material": "Sơ Mờ, đầu đàn & cần: gỗ Nato, mặt đàn: gỗ Vân Sam"
+         }' \
+http://localhost:1234/api/update; echo
+
+--Chuyen chu
+\
+curl -X POST -H "Content-Type: application/json" \
+--data '{
+                "id": "asset13",
+                "newOwnerId": "x509::/OU=org2/OU=client/OU=department1/CN=See Jun::/C=UK/ST=Hampshire/L=Hursley/O=org2.example.com/CN=ca.org2.example.com"
+        }' \
+http://localhost:1234/api/transfer; echo
+
+--Xem lich su cua asset
+curl http://localhost:1234/api/txhistory/asset7; echo
+
+--xem transaction 
+curl http://localhost:1234/api/tx/txId; echo
+
+--Goi transaction mong muon
+\
+curl -X POST -H "Content-Type: application/json" \
+--data '{ "user": {
+            "org": "org2",
+            "name": "Kris",
+            "affiliation": "org2.department1"
+        },
+          "transaction": { 
+            "channelName": "mychannel",
+            "chaincodeName": "basic", 
+            "contractName": "AssetTransferContract",
+            "transactionName": "CreateAsset", 
+            "args": [{"owner": "Kris", "name": "Knife", "price": "999"}] 
+          } 
+        }' \
+http://localhost:1234/api/call; echo
